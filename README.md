@@ -6,13 +6,14 @@
          - Node is single-threaded, relying heavily on the processor of what is currently running the application.
              - memory limit of 512MB on 32-bit systems and 1GB on 64-bit systems
                  
-         - How can we alter the architecture of the application to accomplish the requirements?
-             - Job Control - Master/Child processes to control the jobs that are being done on the application.
-               - Add Clusters to handle the requests
-             - Host on Amazon EC2 and use Elastic Load balancing to correctly route heavy loads to various EC2 instances of the application.
-         - What is the current state of the application? 
-            - Data is currently not being stored.
-                - Could add MongoDB or SQL support but not a requirement. Will skip for now with respect to time constraint.
+     - How can we alter the architecture of the application to accomplish the requirements?
+         - Job Control - Master/Child processes to control the jobs that are being done on the application.
+            - Add Clusters to handle the requests
+         - Host on Amazon EC2 and use Elastic Load balancing to correctly route heavy loads to various EC2 instances of the application.
+     - What is the current state of the application? 
+        - Run benchmark tests with node package loadtest 
+        - Data is currently not being stored.
+            - Could add MongoDB or SQL support but not a requirement. Will skip for now with respect to time constraint.
             
          
 # Changelog
@@ -63,7 +64,7 @@
     Mean latency:        0.4 ms
 
 - Performance went down?
-    - Set the number of concurrent requests to 300 and received the following results:
+    - Set the number of concurrent requests to 300 in the loadtest executable and received the following results:
     
     
         0s  mark: Requests: 0, requests per second: 0, mean latency: 0 ms
@@ -81,6 +82,8 @@
         Requests per second: 5256
         Mean latency:        56.9 ms
         
+4. Removed some nonessential middleware
+    - Results were an increase of ~20,000 requests per minute on average.
     
 
 
