@@ -1,24 +1,45 @@
-# Open Discussion  -  Jonathon Langel
+# busyapi - Jonathon Langel
+
+## RESULTS:
+
+**Requests per minute at start of project**: 194004
+
+**Requests per minute after architecture review and code changes**: 383392
+
+
+
+####What went well?
+- After making code changes, we were able to almost double the number of requests handled by the application.
+
+#### What was flubbed?
+- We didn't get the number of requests to be 1 million per minute.
+
+####What could have been done differently or in addition to the current changes?
+- I think it would have been valuable to spend time uploading this project to AWS or other cloud service and attempting to use 
+load balancing to accomplish the task. Using my local machine, I was limited to the number of CPUs(8), where if we were up on AWS, 
+we could have sparked up multiple EC2 instances with much more computing power. 
+
+# Open Discussion/Ideas
 
 - What can make Node handle POST requests at a rate of 16666.66/s?? (~1m requests / min)
-     - Remove the Express framework and use the raw node server interface
      - What is the speed of the application dependent on?
          - Node is single-threaded, relying heavily on the processor of what is currently running the application.
-             - memory limit of 512MB on 32-bit systems and 1GB on 64-bit systems
-                 
+             - memory limit of 512MB on 32-bit systems and 1GB on 64-bit systems         
      - How can we alter the architecture of the application to accomplish the requirements?
+         - Remove the Express framework and use the raw node server interface0
          - Job Control - Master/Child processes to control the jobs that are being done on the application.
             - Add Clusters to handle the requests
          - Host on Amazon EC2 and use Elastic Load balancing to correctly route heavy loads to various EC2 instances of the application.
      - What is the current state of the application? 
-        - Run benchmark tests with node package loadtest 
+        - Run benchmark tests with node package loadtest (See Below)
         - Data is currently not being stored.
             - Could add MongoDB or SQL support but not a requirement. Will skip for now with respect to time constraint.
             
          
 # Changelog
 
-1. Ran example POST request for Proof of Concept.
+1. Ran example POST request from README for Proof of Concept.
+
 2. Add loadtest package to my machine. 
     - Add loadtest executable to record the number of requests the API can handle in 15 seconds.
     
@@ -84,49 +105,22 @@
         
 4. Removed some nonessential middleware
     - Results were an increase of ~20,000 requests per minute on average.
-    
-
-
-# busyapi
-
-A sample API server for use as an optimization subject.
-
-## Setup
-
-  *  Clone this repository
-  *  Install dependencies `npm install`
-  *  Start the server `npm start`
-  *  Go to [http://localhost:3000/](http://localhost:3000/) to confirm the server is running
-
-## API
-
-The API consists of a single endpoint which receives data when a patient uses their inhaler.
-
-### Add Usage
-
-  *  **method**: POST
-  *  **endpoint**: /api/usages
-  *  **data**: JSON usage object
-  *  **result**: JSON object containing the usageId, HTTP Status 201, 200, 500
-
-#### Example
-
-**Data**
-````
-{
-    "patientId":100,
-    "timestamp":"Tue Nov 01 2016 09:11:51 GMT-0500 (CDT)",
-    "medication":"Albuterol",
-}
-````
-
-**Request**
-
-     curl -X POST -H "Content-Type: application/json" --data '{"patientId":"100","timestamp":"Tue Nov 01 2016 09:11:51 GMT-0500 (CDT)","medication":"Albuterol"}' http://localhost:3000/api/usages
-
-**Response**
-````
-{
-    "id":22954
-}
-````
+5. Removed the Express framework
+        - Results: 
+        
+        
+          Requests: 0, requests per second: 0, mean latency: 0 ms
+          Requests: 27048, requests per second: 5404, mean latency: 55.4 ms
+          Requests: 59258, requests per second: 6430, mean latency: 46.6 ms
+          
+          Target URL:          http://localhost:3000/api/usages
+          Max time (s):        15
+          Concurrency level:   300
+          Agent:               none
+          
+          Completed requests:  91803
+          Total errors:        0
+          Total time:          15.002624825000002 s
+          Requests per second: 6119
+          Mean latency:        48.8 ms
+   - Added additional ~40,000 requests per minute on average.

@@ -1,29 +1,25 @@
-var express = require('express');
-var app = express();
+let  path_map = {};
 
-// simple in-memory usage store
-var usages = [];
-app.usages = usages;
 
-// API
-require('./routes/api/usages')(app);
+require('./routes/api/usages')(path_map);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+module.exports = (req, res) => {
+
+    let { method, url } = req;
+
+    res.on('error', () => {
+        res.statusCode = 500;
+    res.end();
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+    if (method === 'POST') {
+        let endpoint = path_map[url];
+        if (endpoint) {
+            endpoint(req, res);
+            return;
+        }
+    }
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-module.exports = app;
+    res.statusCode = 404;
+    res.end();
+};
