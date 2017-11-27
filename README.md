@@ -8,13 +8,13 @@
 
 
 
-####What went well?
+#### What went well?
 - After making code changes, we were able to almost double the number of requests handled by the application.
 
 #### What was flubbed?
 - We didn't get the number of requests to be 1 million per minute.
 
-####What could have been done differently or in addition to the current changes?
+#### What could have been done differently or in addition to the current changes?
 - I think it would have been valuable to spend time uploading this project to AWS or other cloud service and attempting to use 
 load balancing to accomplish the task. Using my local machine, I was limited to the number of CPUs(8), where if we were up on AWS, 
 we could have sparked up multiple EC2 instances with much more computing power. 
@@ -88,20 +88,20 @@ we could have sparked up multiple EC2 instances with much more computing power.
     - Set the number of concurrent requests to 300 in the loadtest executable and received the following results:
     
     
-        0s  mark: Requests: 0, requests per second: 0, mean latency: 0 ms
-        5s  mark: Requests: 22655, requests per second: 4522, mean latency: 66.2 ms
-        10s mark: Requests: 50404, requests per second: 5561, mean latency: 54 ms
+           0s  mark: Requests: 0, requests per second: 0, mean latency: 0 ms
+           5s  mark: Requests: 22655, requests per second: 4522, mean latency: 66.2 ms
+           10s mark: Requests: 50404, requests per second: 5561, mean latency: 54 ms
         
-        Target URL:          http://localhost:3000/api/usages
-        Max time (s):        15
-        Concurrency level:   300
-        Agent:               none
+           Target URL:          http://localhost:3000/api/usages
+           Max time (s):        15
+           Concurrency level:   300
+           Agent:               none
         
-        Completed requests:  78849
-        Total errors:        0
-        Total time:          15.000393354 s
-        Requests per second: 5256
-        Mean latency:        56.9 ms
+           Completed requests:  78849
+           Total errors:        0
+           Total time:          15.000393354 s
+           Requests per second: 5256
+           Mean latency:        56.9 ms
         
 4. Removed some nonessential middleware
     - Results were an increase of ~20,000 requests per minute on average.
@@ -109,18 +109,18 @@ we could have sparked up multiple EC2 instances with much more computing power.
         - Results: 
         
         
-          Requests: 0, requests per second: 0, mean latency: 0 ms
-          Requests: 27048, requests per second: 5404, mean latency: 55.4 ms
-          Requests: 59258, requests per second: 6430, mean latency: 46.6 ms
+               0s  mark: Requests: 0, requests per second: 0, mean latency: 0 ms
+               5s  mark: Requests: 27048, requests per second: 5404, mean latency: 55.4 ms
+               10s mark: Requests: 59258, requests per second: 6430, mean latency: 46.6 ms
           
-          Target URL:          http://localhost:3000/api/usages
-          Max time (s):        15
-          Concurrency level:   300
-          Agent:               none
+               Target URL:          http://localhost:3000/api/usages
+               Max time (s):        15
+               Concurrency level:   300
+               Agent:               none
           
-          Completed requests:  91803
-          Total errors:        0
-          Total time:          15.002624825000002 s
-          Requests per second: 6119
-          Mean latency:        48.8 ms
+               Completed requests:  91803
+               Total errors:        0
+               Total time:          15.002624825000002 s
+               Requests per second: 6119
+               Mean latency:        48.8 ms
    - Added additional ~40,000 requests per minute on average.
